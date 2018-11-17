@@ -382,6 +382,28 @@
 		"type": "function"
 	},
 	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"name": "tokenId",
+				"type": "uint256"
+			},
+			{
+				"name": "baseTokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "mintWithBase",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
 		"constant": true,
 		"inputs": [
 			{
@@ -502,11 +524,11 @@
 	}
 ]
 
-      var contract = web3.eth.contract(ABI).at("0xbac4a8801a51d66e67bd1caf3e3fdc141b20fcbf");
+      var contract = web3.eth.contract(ABI).at("0xf0112adcd78702e130c0eceaff5cdf8e064ba409");
 
       // debugger;
 
-      contract.mint("0x8d87CBcbABa1915a2472257F5331d7013EB45719", 3, function(err, res) {
+      contract.mintWithBase("0x8d87CBcbABa1915a2472257F5331d7013EB45719", 3, 631967, function(err, res) {
         console.log(err);
         console.log(res);
       });  

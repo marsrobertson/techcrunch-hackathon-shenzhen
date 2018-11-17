@@ -10,4 +10,9 @@ contract MyNFT is ERC721Full, ERC721Mintable {
     constructor() ERC721Full("CopyCat", "CPC") public {
     }
 
+    function mintWithBase(address to, uint256 tokenId, uint256 baseTokenId) public {
+        _mint(to, tokenId);
+        newToOld[tokenId] = baseTokenId;
+    }
+
 }
