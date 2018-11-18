@@ -624,15 +624,16 @@
         // $rootScope.contract = web3.eth.contract($rootScope.ABI).at($rootScope.address);
       });
 
-      app.controller('ctrl', function ($scope, cryptokittiesAPI, copycatAPI) {
+      app.controller('ctrl', function ($rootScope, $scope, cryptokittiesAPI, copycatAPI) {
 
+        $scope.copycats = [];
 
-        copycatAPI.listCopycats("0x8d87CBcbABa1915a2472257F5331d7013EB45719");
+        
 
         $rootScope.$on("copycat", function(event, data) {
           console.log(event, data);
-        })
-
+          $scope.copycats.push(data);
+        });
 
         $scope.copycat = function() {
           console.log($scope.cryptoKittyId);
@@ -652,6 +653,11 @@
               console.log(err);
             } else {
               console.log(res); // tx hash
+              
+
+              $scope.copycats = [];
+              copycatAPI.listCopycats(web3.eth.accounts[0]);
+
             }
           });  
 
@@ -660,6 +666,8 @@
 
         setInterval(function() {
           if ($scope.account !== web3.eth.accounts[0]) {
+
+            copycatAPI.listCopycats(web3.eth.accounts[0]);
 
             cryptokittiesAPI.getKittesByOwner(web3.eth.accounts[0]).then(function(success){
               console.log(success)
@@ -700,7 +708,16 @@
 
       <h3>Your existing Crypto Kitty collection:</h3>
 
+      <pre style="display: inline" ng-hide="originalKitties.length">none</pre>
+
       <div ng-repeat="kitty in originalKitties" style="display: inline-block">
+        <img style="height: 250px;" ng-src="{{ kitty.image_url_cdn }}">
+        <h3 style="text-align: center;">{{ kitty.id }}</h3>
+      </div>
+
+      <h3>Your existing Copy Cat collection:</h3>
+
+      <div ng-repeat="kitty in copycats" style="display: inline-block">
         <img style="height: 250px;" ng-src="{{ kitty.image_url_cdn }}">
         <h3 style="text-align: center;">{{ kitty.id }}</h3>
       </div>
