@@ -524,8 +524,6 @@
 		"type": "event"
 	}
 ]
-
-      var contract = web3.eth.contract(ABI).at("0xf0112adcd78702e130c0eceaff5cdf8e064ba409");
         
       var app = angular.module("app", ['ui.bootstrap']);
 
@@ -552,19 +550,21 @@
 
         service.listCopycats = function(address) {
 
-          contract.balanceOf.call(address, function(err, res) {
+          console.log("listCopycats");
+
+          $rootScope.contract.balanceOf.call(address, function(err, res) {
             var howMany = res.toNumber();
 
             for(var i=0; i<howMany; i++)
 
-            contract.tokenOfOwnerByIndex.call(address, i, function(err2, res2) {
+            $rootScope.contract.tokenOfOwnerByIndex.call(address, i, function(err2, res2) {
 
               if (err2) {
                 console.error(err2);
               } else {
                 console.log(res2.toNumber());
 
-                contract.newToOld.call(res2, function(err3, res3) {
+                $rootScope.contract.newToOld.call(res2, function(err3, res3) {
                   if (err3) {
                     console.error(err3);
                   } else {
@@ -596,8 +596,6 @@
         return service;
       })
 
-
-
       app.run(function($rootScope) {
         // $rootScope.address = "0x6c1c2fd38fccc0b010f75b2ece535cf57543ddcd"; // https://ropsten.etherscan.io/address/0x2328bc22d5705b2cde99e02a780e2fecdca4ad6b
         // $rootScope.ABI = [{"constant":true,"inputs":[],"name":"timestampEnd","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"howManyGuaranteed","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"addr","type":"address"}],"name":"getPosition","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[],"name":"bid","outputs":[],"payable":true,"stateMutability":"payable","type":"function"},{"constant":true,"inputs":[],"name":"HEAD","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"initialPrice","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"","type":"address"}],"name":"contributors","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"instructions","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"beneficiary","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"","type":"uint256"}],"name":"bids","outputs":[{"name":"prev","type":"uint256"},{"name":"next","type":"uint256"},{"name":"value","type":"uint256"},{"name":"contributor","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"getGuaranteedContributorsLenght","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[],"name":"finalize","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"addr","type":"address"}],"name":"refundOnBehalf","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"lastBidID","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[],"name":"refund","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"howMany","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"","type":"address"}],"name":"bids","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"","type":"uint256"}],"name":"guaranteedContributors","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"increaseTimeIfBidBeforeEnd","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"description","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"getPosition","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"owner","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_description","type":"string"}],"name":"setDescription","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"price","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"_contribution","type":"uint256"},{"name":"_startSearch","type":"uint256"}],"name":"searchInsertionPoint","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"LIMIT","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"finalized","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"priceGuaranteed","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"getAccountListLenght","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"TAIL","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"increaseTimeBy","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"","type":"uint256"}],"name":"accountsList","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"winner","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"","type":"address"}],"name":"guaranteedContributions","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_instructions","type":"string"}],"name":"setInstructions","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"inputs":[{"name":"_price","type":"uint256"},{"name":"_description","type":"string"},{"name":"_timestampEnd","type":"uint256"},{"name":"_beneficiary","type":"address"},{"name":"_howMany","type":"uint256"},{"name":"_howManyGuaranteed","type":"uint256"},{"name":"_priceGuaranteed","type":"uint256"}],"payable":false,"stateMutability":"nonpayable","type":"constructor"},{"payable":true,"stateMutability":"payable","type":"fallback"},{"anonymous":false,"inputs":[{"indexed":true,"name":"bidder","type":"address"},{"indexed":false,"name":"value","type":"uint256"},{"indexed":false,"name":"timestamp","type":"uint256"}],"name":"GuaranteedBid","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"number","type":"uint256"}],"name":"LogNumber","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"text","type":"string"}],"name":"LogText","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"addr","type":"address"}],"name":"LogAddress","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"bidder","type":"address"},{"indexed":false,"name":"value","type":"uint256"},{"indexed":false,"name":"timestamp","type":"uint256"}],"name":"BidEvent","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"bidder","type":"address"},{"indexed":false,"name":"value","type":"uint256"},{"indexed":false,"name":"timestamp","type":"uint256"}],"name":"Refund","type":"event"}];
@@ -606,7 +604,7 @@
           web3 = new Web3(web3.currentProvider);
         } else {
           $rootScope.metamask = false;
-          alert("no metamask");
+          // alert("no metamask");
           return;
         }
 
@@ -621,7 +619,10 @@
         });
 
         $rootScope.metamask = web3.currentProvider.isMetaMask;
-        // $rootScope.contract = web3.eth.contract($rootScope.ABI).at($rootScope.address);
+
+        // var contract = web3.eth.contract(ABI).at("0xf0112adcd78702e130c0eceaff5cdf8e064ba409"); // locahost
+        $rootScope.contract = web3.eth.contract(ABI).at("0x9436fc95f7C705903A3e6CBF92e0Dd92B689D75e"); // Ropsten
+
       });
 
       app.controller('ctrl', function ($rootScope, $scope, cryptokittiesAPI, copycatAPI) {
@@ -658,7 +659,7 @@
 
 
           // TODO: use a sequential number
-          contract.mintWithBase($scope.account, Math.floor(Math.random() * 1000000001), $scope.cryptoKittyId, function(err, res) {
+          $rootScope.contract.mintWithBase($scope.account, Math.floor(Math.random() * 1000000001), $scope.cryptoKittyId, function(err, res) {
             if (err) {
               console.log(err);
             } else {
@@ -710,7 +711,7 @@
   </head>
   <body ng-app="app">
 
-    <div ng-controller="ctrl" class="container">
+    <div ng-controller="ctrl" class="container" style="margin-top: 2vh; border: 7px solid white;">
 
       <h3>Hello, you are logged as <img src="spinner.gif" style="height: 45px" ng-hide="account"> <pre style="display: inline" ng-show="account">{{ account }}</pre> </h3>
 
@@ -751,20 +752,14 @@
 
      
       <span ng-show="! $root.metamask">
-        <h1 style="font-family: monospace; font-weight: bold; border: 5px solid black; padding: 10px; margin-top: .5rem;">Metamask required to obtain more data</h1>
+        <h1 style="font-family: monospace; font-weight: bold; border: 5px solid black; padding: 10px; margin-top: .5rem;">Metamask required</h1>
         <img src="metamask.jpg" style="border: 5px solid gray; width: 100%; max-width: 100%;">
       </span>
-
-      <!--
 
       <span ng-show="$root.metamask && ! $root.ropsten">
         <h1 style="font-family: monospace; font-weight: bold; border: 5px solid black; padding: 10px; margin-top: .5rem;">please switch to the Ropsten testnet</h1>
         <img src="metamask.jpg" style="border: 5px solid gray; width: 100%; max-width: 100%;">
-      </span>
-
-       -->
-
-      
+      </span>     
 
       <!-- <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
       <button class='btn btn-default' ng-click="addAlert()">Add Alert</button> -->
