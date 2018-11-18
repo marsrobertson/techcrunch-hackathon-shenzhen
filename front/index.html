@@ -628,7 +628,17 @@
 
         $scope.copycats = [];
 
-        
+        $scope.init = function() {
+          copycatAPI.listCopycats($scope.account);
+
+          cryptokittiesAPI.getKittesByOwner($scope.account).then(function(success){
+            console.log(success)
+            $scope.originalKitties = success.data.kitties;
+          }, function(error) {
+            console.log(error);
+          })
+
+        }
 
         $rootScope.$on("copycat", function(event, data) {
           console.log(event, data);
@@ -654,35 +664,33 @@
             } else {
               console.log(res); // tx hash
               
-
               $scope.copycats = [];
-              copycatAPI.listCopycats(web3.eth.accounts[0]);
+              copycatAPI.listCopycats( $scope.account);
 
             }
           });  
 
           $scope.cryptoKittyId = "";
         }
-
-        setInterval(function() {
-          if ($scope.account !== web3.eth.accounts[0]) {
-
-            copycatAPI.listCopycats(web3.eth.accounts[0]);
-
-            cryptokittiesAPI.getKittesByOwner(web3.eth.accounts[0]).then(function(success){
-              console.log(success)
-
-              $scope.originalKitties = success.data.kitties;
-              // $scope.$apply();
-
-
-            }, function(error) {
-              console.log(error);
-            })
         
+        var start = new Date();
+        var interval = setInterval(function() {
+
+          console.log(new Date() - start);
+
+          if ($scope.account !== web3.eth.accounts[0]) {
             $scope.account = web3.eth.accounts[0];
+
+            $scope.init();
           }
-        }), 100;
+        }, 100);
+
+        setTimeout(function() {
+          clearInterval(interval);
+          $scope.account = "0x85A363699C6864248a6FfCA66e4a1A5cCf9f5567"; // hardcoded after 10s because sometimes it takes so long (inconsistent)
+          $scope.init();
+          $scope.$apply();
+        }, 5000)
 
         // $scope.alerts = [
         //   { type: 'danger', msg: 'Oh snap! Change a few things up and try submitting again.' },
@@ -706,38 +714,55 @@
 
       <h3>Hello, you are logged as <img src="spinner.gif" style="height: 45px" ng-hide="account"> <pre style="display: inline" ng-show="account">{{ account }}</pre> </h3>
 
-      <h3>Your existing Crypto Kitty collection:</h3>
+      <span ng-show="account">
+        <h3>Your existing Crypto Kitty collection: <pre style="display: inline" ng-hide="originalKitties.length">none</pre></h3>
 
-      <pre style="display: inline" ng-hide="originalKitties.length">none</pre>
+        <div ng-repeat="kitty in originalKitties" style="display: inline-block">
+          <img style="height: 250px;" ng-src="{{ kitty.image_url_cdn }}">
+          <h3 style="text-align: center;">{{ kitty.id }}</h3>
+        </div>
 
-      <div ng-repeat="kitty in originalKitties" style="display: inline-block">
-        <img style="height: 250px;" ng-src="{{ kitty.image_url_cdn }}">
-        <h3 style="text-align: center;">{{ kitty.id }}</h3>
-      </div>
+        <h3>Your existing Copy Cat collection: <pre style="display: inline" ng-hide="copycats.length">none</pre></h3>
 
-      <h3>Your existing Copy Cat collection:</h3>
+        <div ng-repeat="kitty in copycats" style="display: inline-block">
+          <img style="height: 250px;" ng-src="{{ kitty.image_url_cdn }}">
+          <h3 style="text-align: center;">{{ kitty.id }}</h3>
+        </div>
 
-      <div ng-repeat="kitty in copycats" style="display: inline-block">
-        <img style="height: 250px;" ng-src="{{ kitty.image_url_cdn }}">
-        <h3 style="text-align: center;">{{ kitty.id }}</h3>
-      </div>
+        <h3>Get yourself a copy cat!</h3>
+        <form ng-submit="copycat()">
+          <input type="number" ng-model="cryptoKittyId"/>
+          <input type="submit" value="Copy cat" />
+        </form>
 
-      <h3>Get yourself a copy cat!</h3>
-      <form ng-submit="copycat()">
-        <input type="number" ng-model="cryptoKittyId"/>
-        <input type="submit" value="Copy cat" />
-      </form>
+        <br>
+        <br>
+        <br>
+
+      </span>
+
+      <span ng-hide="account">
+          <h3 style="font-family: monospace; font-weight: bold; border: 5px solid black; padding: 10px; margin-top: .5rem;">Please wait while we fetch your account...</h1>
+      </span>
+  
 
 
+      
+
+     
       <span ng-show="! $root.metamask">
         <h1 style="font-family: monospace; font-weight: bold; border: 5px solid black; padding: 10px; margin-top: .5rem;">Metamask required to obtain more data</h1>
         <img src="metamask.jpg" style="border: 5px solid gray; width: 100%; max-width: 100%;">
       </span>
 
+      <!--
+
       <span ng-show="$root.metamask && ! $root.ropsten">
         <h1 style="font-family: monospace; font-weight: bold; border: 5px solid black; padding: 10px; margin-top: .5rem;">please switch to the Ropsten testnet</h1>
         <img src="metamask.jpg" style="border: 5px solid gray; width: 100%; max-width: 100%;">
       </span>
+
+       -->
 
       
 
